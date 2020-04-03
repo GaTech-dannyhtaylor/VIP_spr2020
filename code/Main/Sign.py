@@ -27,7 +27,7 @@ class Sign:
         self.num_of_points += 1
 
         # Calculate new centroid of cluster
-        self. centroid_easting, self.centroid_northing, self.centroid_altitude, self.centroid_longitude, self.centroid_latitude,  = self.centroid()
+        self.centroid_easting, self.centroid_northing, self.centroid_altitude, self.centroid_longitude, self.centroid_latitude  = self.centroid()
 
         # Calculate the new average retro value
         self.dataframe['Retro'].mean()
