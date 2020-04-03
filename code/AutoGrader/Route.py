@@ -3,7 +3,7 @@
 This class holds all the information for a route. Still undecided if this will be a parent class or not.
 
 Starting and ending gps should be tuples
-Starting and ending UTM should also be touples
+Starting and ending UTM should also be tuples
 """
 class Route:
 
