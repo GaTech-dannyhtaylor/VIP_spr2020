@@ -14,7 +14,7 @@ class GTSign(Sign):
 	# You can instantiate a GTSign object with no points or pass in a list of points (either a list of GTPoints or UserPoints). 
 	# Average values and centroids are calculated.
 	def __init__(self, sign_id, stype, pic_frame_number, plist = []):
-		super().__init__(plist)
+		self.pliist = plist
 		self.sign_id = sign_id
 		self.sign_type = stype
 		self.pic_frame_num = pic_frame_number
