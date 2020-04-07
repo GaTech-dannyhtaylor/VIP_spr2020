@@ -49,10 +49,10 @@ def createRoute(path):
     routePropertiesList = routeProperties.readlines()
     roadWay = routePropertiesList[0].split(": ", 1)[1].split("\n",1)[0]
     year = int(routePropertiesList[1].split(": ", 1)[1].split("\n",1)[0])
-    startingGps = routePropertiesList[2].split(": ", 1)[1].split("\n",1)[0]
-    endingGps = routePropertiesList[3].split(": ", 1)[1].split("\n",1)[0]
-    startingUTM = routePropertiesList[4].split(": ", 1)[1].split("\n",1)[0]
-    endingUTM = routePropertiesList[5].split(": ", 1)[1].split("\n",1)[0]
+    startingGps = (float(routePropertiesList[2].split(": ", 1)[1].split("\n",1)[0].split(" ", 1)[0]), float(routePropertiesList[2].split(": ", 1)[1].split("\n",1)[0].split(" ", 1)[1]))
+    endingGps = (float(routePropertiesList[3].split(": ", 1)[1].split("\n",1)[0].split(" ", 1)[0]), float(routePropertiesList[3].split(": ", 1)[1].split("\n",1)[0].split(" ", 1)[1]))
+    startingUTM = (float(routePropertiesList[4].split(": ", 1)[1].split("\n",1)[0].split(" ", 1)[0]), float(routePropertiesList[4].split(": ", 1)[1].split("\n",1)[0].split(" ", 1)[1]))
+    endingUTM = (float(routePropertiesList[5].split(": ", 1)[1].split("\n",1)[0].split(" ", 1)[0]), float(routePropertiesList[5].split(": ", 1)[1].split("\n",1)[0].split(" ", 1)[1]))
     startingPic = float(routePropertiesList[6].split(": ", 1)[1].split("\n",1)[0])
     endingPic = float(routePropertiesList[7].split(": ", 1)[1].split("\n",1)[0])
     distance = 0 #float(routePropertiesList[8].split(": ", 1)[1].split("\n",1)[0])
