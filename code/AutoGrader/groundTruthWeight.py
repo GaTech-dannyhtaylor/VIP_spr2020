@@ -17,3 +17,4 @@ def groundTruthWeight(gtSign):
     for p in gtPointList:
         #Divide intial set point value by total of all point inverse centroid distance for normalization to 1
         p.value /= inverseSum
+        p.value *= 100
