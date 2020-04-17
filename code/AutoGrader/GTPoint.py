@@ -9,6 +9,6 @@ You can create this class with no attributes, or with some, or with all attribut
 """
 class GTPoint(Point):
 
-	def __init__(self, point_id = None, easting = None, northing = None, altitude = None, retro = None, angle = None, distance = None, utc = None, longitude = None, latitude = None):
-		super().__init__(point_id, easting, northing, altitude, retro, angle, distance, utc, longitude, latitude)
-		self.value = None
+    def __init__(self, point_id = None, easting = None, northing = None, altitude = None, retro = None, angle = None, distance = None, utc = None, longitude = None, latitude = None):
+        super().__init__(point_id, easting, northing, altitude, retro, angle, distance, utc, longitude, latitude)
+        self.value = None
