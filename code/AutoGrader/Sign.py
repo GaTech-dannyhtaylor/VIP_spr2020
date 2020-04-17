@@ -11,7 +11,6 @@ class Sign:
     def __init__(self, sign_id, plist = []):
         self.sign_id = sign_id
         self.point_list = []
-
         self.centroid_easting = 0
         self.centroid_northing = 0
         self.centroid_altitude = 0
@@ -55,11 +54,11 @@ class Sign:
             latitude_total += p.latitude
 
         self.centroid_easting = easting_total / self.num_of_points
-        self.northing_total = northing_total / self.num_of_points
-        self.altitude_total = altitude_total / self.num_of_points
-        self.retro_total = retro_total / self.num_of_points
-        self.longitude_total = longitude_total / self.num_of_points
-        self.latitude_total = latitude_total / self.num_of_points
+        self.centroid_northing = northing_total / self.num_of_points
+        self.centroid_altitude = altitude_total / self.num_of_points
+        self.avg_retro = retro_total / self.num_of_points
+        self.centroid_longitude = longitude_total / self.num_of_points
+        self.centroid_latitude = latitude_total / self.num_of_points
 
 
 

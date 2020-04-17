@@ -2,7 +2,8 @@
     # IOU = intersection / union
 
 # Notes for Danny, I am adding a trueGTPoint_list and NSP_list attribute for UserSign
-    # changed method to set it's iou in this method
+    # changed method to set it's userSign's iou in this method
+    #also setting userPoint values that are GTpoints in this method
 
 import copy
 from Point import *
@@ -27,10 +28,11 @@ def setIOU(gtSign, userSign):
 
         while not foundUserPoint and gtIndex < len(gt_points):
             if userPoint.point_id == gt_points[gtIndex].point_id:
-                # Match between UserPoint and GTPoint
+                # Match between UserPoint and GTPoint, assign TSP and GTPoint value to UserPoint. Add to TSP_list
                 userPoint.type = "TSP"
+                userPoint.value = gt_points[gtIndex].value
                 userPoint.distance_to_closest_tsp = 0
-                TSP_list.append(gt_points[gtIndex])
+                TSP_list.append(userPoint)
 
                 # Remove matched GTPoint from deep copy list
                 gt_points.remove(gt_points[gtIndex])
@@ -50,10 +52,12 @@ def setIOU(gtSign, userSign):
     userSign.iou = 100 * (intersection / union) #float percent
 
 
-    # Testing purpose print statements:
+    # Testing purpose print statements for IOU, TSP_list, NSP_list:
     # print(f'Length of userSign point list: {len(user_points)}')
     # print(f'Length of gtSign point list: {len(gtSign.point_list)}')
     # print(f'Intersection count: {intersection}')
     # print(f'Union count: {union}')
-    # print(f'IOU: {userSign.iou}%')
+    # print(f'userSign IOU: {userSign.iou}%')
+    # print(f'TSP_list length: {len(userSign.TSP_list)}')
+    # print(f'NSP_list length: {len(userSign.NSP_list)}')
 

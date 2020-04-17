@@ -18,3 +18,10 @@ def groundTruthWeight(gtSign):
         #Divide intial set point value by total of all point inverse centroid distance for normalization to 1
         p.value /= inverseSum
         p.value *= 100
+
+    # Testing purpose print statements for GTSign values:
+    # totalValue = 0
+    # for point in gtSign.point_list:
+    #     print(f'Point ID {point.point_id} of easting {point.easting} of value {point.value}.')
+    #     totalValue += point.value
+    # print(totalValue)     # check total of normalized point values is 100
