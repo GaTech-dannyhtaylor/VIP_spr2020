@@ -7,12 +7,10 @@
 # WARNING! All changes made in this file will be lost!
 
 import sys
-from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication, QWidget, QInputDialog, QLineEdit, QFileDialog
+from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import QIcon
 from autograders2 import Ui_AutograderS2
-
-
 class Ui_AutograderS1(object):
     def openWindow(self):
         self.window = QtWidgets.QMainWindow()
@@ -25,12 +23,10 @@ class Ui_AutograderS1(object):
             self.completed += 0.0001
             self.progressBar.setValue(self.completed)
     def browse(self):
-        self.openFile()
-    def openFile(self):
+        self.dialogBox
+    def dialogBox(self):
         fileName = QFileDialog.getOpenFileName()
         path = fileName[0]
-        self.label.setText(path)
-        
     def setupUi(self, AutograderS1):
         AutograderS1.setObjectName("AutograderS1")
         AutograderS1.resize(800, 600)
@@ -100,7 +96,6 @@ class Ui_AutograderS1(object):
         self.browseButton.setStyleSheet("background-color:rgb(170, 255, 255)")
         self.browseButton.setObjectName("browseButton")
         self.browseButton.clicked.connect(self.browse)
-        
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setGeometry(QtCore.QRect(170, 240, 261, 31))
         font = QtGui.QFont()
@@ -132,7 +127,7 @@ class Ui_AutograderS1(object):
         self.runButton.setText(_translate("AutograderS1", "Run"))
         self.resetButton.setText(_translate("AutograderS1", "Reset"))
         self.browseButton.setText(_translate("AutograderS1", "Browse"))
-        self.label.setText(_translate("AutograderS1", ""))
+        self.label.setText(_translate("AutograderS1", "TextLabel"))
         self.menuHome.setTitle(_translate("AutograderS1", "Home"))
         self.actionHelp.setText(_translate("AutograderS1", "Help"))
 
