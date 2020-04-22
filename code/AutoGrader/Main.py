@@ -12,7 +12,12 @@ import math
 import argparse
 
 if __name__ == '__main__':
-	# Command line arg code
+	"""
+	You run the autograder with the following command:
+
+	python Main.py --g <path to ground truth route FOLDER> --u <whole path to user output>
+
+	"""
     parser = argparse.ArgumentParser(description='Input for autograder')
     parser.add_argument("--g", help = "whole path for ground truth")
     parser.add_argument("--u", help = "whole path for user output")
