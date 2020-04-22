@@ -31,6 +31,7 @@ def setIOU(gtSign, userSign):
                 # Match between UserPoint and GTPoint, assign TSP and GTPoint value to UserPoint. Add to TSP_list
                 userPoint.type = "TSP"
                 userPoint.value = gt_points[gtIndex].value
+                userPoint.aggregateValue = gt_points[gtIndex].aggregateValue
                 userPoint.distance_to_closest_tsp = 0
                 TSP_list.append(userPoint)
 

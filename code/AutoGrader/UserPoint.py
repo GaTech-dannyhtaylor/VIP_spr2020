@@ -20,3 +20,4 @@ class UserPoint(Point):
         self.distance_to_closest_tsp = None
             # Note distance_to_closest_tsp is 0 for true GTPoints, otheriwse has value for non-sign points (NSPs)
         self.value = None
+        self.aggregateValue = None

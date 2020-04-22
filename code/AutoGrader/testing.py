@@ -1,5 +1,6 @@
 import sys
 
+from scoreUserSign import *
 from groundTruthWeight import *
 from setIOU import *
 from scoreUserSign import *

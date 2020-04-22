@@ -22,7 +22,11 @@ def scoreUserSign(gtSign, userSign):
             if tempDist < minDist:
                 minDist = tempDist
         nsp.distance_to_closest_tsp = minDist
-        nsp.value = nsp.distance_to_closest_tsp / 2
+        if (nsp.distance_to_closest_tsp > 5) {
+            nsp.value = 10
+        } else {
+            nsp.value = nsp.distance_to_closest_tsp / 2
+        }
 
     # Score the userSign by summing TSPs and subtracting NSPs
     totalScore = 0
