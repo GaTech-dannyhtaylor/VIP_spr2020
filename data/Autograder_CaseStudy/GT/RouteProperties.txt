@@ -1,0 +1,15 @@
+Roadway: I285_CW
+Year: 2017
+Starting GPS (LAT, LONG):33.891196113, -84.258599038 
+Ending GPS (LAT, LONG): 33.836103202, -84.249436941 
+Starting UTM (Easting, Northing): 753521.62, 3753475.658   
+Ending UTM (Easting, Northing): 754532.768, 3747387.18 
+Starting Pic_Num:16822
+Ending Pic_Num:17014
+Distance:
+Total number of signs:5
+W:0
+R:0
+G:0
+C:0
+O:0

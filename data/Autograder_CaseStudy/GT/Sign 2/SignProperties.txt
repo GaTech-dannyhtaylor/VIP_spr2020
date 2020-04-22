@@ -1,0 +1,5 @@
+Sign Number:2
+Type:W				
+Pic Frame Number:16928
+GPS Coordinate (LAT, LONG, ALT):
+UTM Coordinate (Easting, Northing):

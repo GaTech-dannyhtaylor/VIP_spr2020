@@ -18,3 +18,4 @@ class GTSign(Sign):
 		self.sign_id = sign_id
 		self.sign_type = stype
 		self.pic_frame_num = pic_frame_number
+		self.captured = "NO"

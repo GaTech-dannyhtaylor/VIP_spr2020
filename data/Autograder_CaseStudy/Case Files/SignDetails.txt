@@ -1,0 +1,8 @@
+starting_picnum: 16822
+ending_picnum: 17017
+num_of_test_signs:5
+Case 0: Wide Capture
+Case 1: Narrow Capture
+Case 2: Wide Capture
+Case 3: False Positive & False Negative
+Case 4: Ground Truth Capture

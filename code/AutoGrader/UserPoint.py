@@ -14,8 +14,8 @@ value = Numerical value that either takes on a positive value is it is of type '
 """
 class UserPoint(Point):
 
-	def __init__(self, sign_id = None, easting = None, northing = None, altitude = None, retro = None, angle = None, distance = None, utc = None, longitude = None, latitude = None):
-		super().__init__(sign_id, easting, northing, altitude, retro, angle, distance, utc, longitude, latitude)
+	def __init__(self, point_id = None, easting = None, northing = None, altitude = None, retro = None, angle = None, distance = None, utc = None, longitude = None, latitude = None):
+		super().__init__(point_id, easting, northing, altitude, retro, angle, distance, utc, longitude, latitude)
 		self.type = None
 		self.distance_to_closest_tsp = None
 		self.value = None
