@@ -32,7 +32,7 @@ There are several files in the repo and can be confusing when sifting through ev
 The main flow of the program is as follows:
 1. Read in the LiDAR data into a pandas dataframe
 2. Filter the data to get rid of bad or unecessary data
-3. Pass the filtered dataframe into a clustering algorithm that turns a list of clusters.
+3. Pass the filtered dataframe into a clustering algorithm that returns a list of clusters.
 4. Pass the list of clusters into a classifying algorithm that will determine which clusters are signs. Returns a list of signs.
 5. We will pair a picture to each sign that shows the sign in the real world.
 6. Write out the list of points to a .txt file
