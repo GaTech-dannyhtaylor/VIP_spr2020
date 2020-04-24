@@ -27,8 +27,10 @@ class UserSign(Sign):
 		self.matrix_classification = ""
 		self.matched = ["NO", -1] # Second element in list indicatest the sign_id of the user sign that it matched with.
 		self.matched_ratio = None # This will be a tuple of the format (# of TSPs captured, # of GTpoints in matched GTSign)
-		self.NSP_count = -1
+
+		self.TSP_count = 0
+		self.NSP_count = 0
 
 		# Gabby added for iou calc
-		self.TSP_list = []
-		self.NSP_list = []
+		# self.TSP_list = []
+		# self.NSP_list = []

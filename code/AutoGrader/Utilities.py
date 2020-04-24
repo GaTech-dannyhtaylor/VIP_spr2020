@@ -15,8 +15,6 @@ def euclidean_distance(user_sign, gt_sign):
 	return math.sqrt(((user_sign.centroid_easting - gt_sign.centroid_easting)**2) + ((user_sign.centroid_northing - gt_sign.centroid_northing)**2) + ((user_sign.centroid_altitude - gt_sign.centroid_altitude)**2))
 
 
-
-
 # Assigns a weight to each GTPoint
 def groundTruthWeight(gtSign):
     # Given a GTSign object, run through its point list and assign ground truth value/weight to each GTPoint
@@ -76,116 +74,86 @@ def aggregateNormGT(groundTruthSignList):
 def aggregateNSPs(userSignList, num_of_matched_gt_signs):
     # Takes in list of all user signs
 
+
+# ====================================================================================================================================
     for userSign in userSignList:
         if userSign.matrix_classification == 'TP':
         	for point in userSign.point_list:
         		if point.type == 'NSP':
-        			point.aggregateValue = point.aggregateValue / num_of_matched_gt_signs
+        			point.aggregateValue = point.value / num_of_matched_gt_signs
+# ====================================================================================================================================
 
 
 
+"""
+Sets a userSign.iou
+IOU = intersection / union
+Since we are looping over all the points in a user sign, we will go ahead and set each point as a TSP or NSP and acquire the value if it's an NSP
 
-# Sets a userSign.iou
-    # IOU = intersection / union
+This method will loop through and assign a user point as either a TSP or NSP. If TSP, then it copies over GT point value
+If NSP, then it will calculate an NSP value based on distance from the closest GTPoint
 
-# Notes for Danny, I am adding a trueGTPoint_list and NSP_list attribute for UserSign
-    # changed method to set it's userSign's iou in this method
-    #also setting userPoint values that are GTpoints in this method
+"""
 
 def setIOU(gtSign, userSign):
-    gt_points = copy.deepcopy(gtSign.point_list) # Why is this a deep copy?
+    gt_points = gtSign.point_list
     user_points = userSign.point_list
     intersection = 0
-    TSP_list = []
-    NSP_list = []
 
     #Loop through userSign points to check match to a GTPoint of the gtSign
-    for i in range(len(user_points)):
-        userPoint = user_points[i]
-        foundUserPoint = False
+    for i,userPoint in enumerate(user_points):
+        found_gt_point = False
         gtIndex = 0
 
-        while not foundUserPoint and gtIndex < len(gt_points):
+        while not found_gt_point and gtIndex < len(gt_points):
             if userPoint.point_id == gt_points[gtIndex].point_id:
                 # Match between UserPoint and GTPoint, assign TSP and GTPoint value to UserPoint. Add to TSP_list
                 userPoint.type = "TSP"
                 userPoint.value = gt_points[gtIndex].value
                 userPoint.aggregateValue = gt_points[gtIndex].aggregateValue
                 userPoint.distance_to_closest_tsp = 0
-                TSP_list.append(userPoint)
+                userSign.TSP_count += 1
 
-                # Remove matched GTPoint from deep copy list
-                gt_points.remove(gt_points[gtIndex])
-                foundUserPoint = True
+                found_gt_point = True
                 intersection += 1
             gtIndex += 1
 
-        if (foundUserPoint == False):
+        if found_gt_point == False: # You could set NSP values here aaand that's what I did
             userPoint.type = "NSP"
-            NSP_list.append(user_points[i])
+            userSign.NSP_count += 1
+            # print(userPoint.aggregateValue)
 
-    # Assign TSP and NSP list to userSign
-    userSign.TSP_list = TSP_list
-    userSign.NSP_list = NSP_list
+            minDist = float("inf")
+            for gtPoint in gt_points:
+            	tempDist = (math.sqrt(((userPoint.easting - gtPoint.easting)**2) + ((userPoint.northing - gtPoint.northing)**2) + ((userPoint.altitude - gtPoint.altitude)**2)))
+            	if tempDist < minDist:
+            		minDist = tempDist
+            	userPoint.distance_to_closest_tsp = minDist
+            	userPoint.value = userPoint.distance_to_closest_tsp / 2
 
     union = len(user_points) + len(gtSign.point_list) - intersection
-    # userSign.iou = 100 * (intersection / union) #float percent
 
-    return 100 * (intersection /union)
+    # for user_point in user_points:
+    # 	print(user_point.type)
+    # 	print(str(user_point.value) + '\n')
 
-
-    # Testing purpose print statements for IOU, TSP_list, NSP_list:
-    # print(f'Length of userSign point list: {len(user_points)}')
-    # print(f'Length of gtSign point list: {len(gtSign.point_list)}')
-    # print(f'Intersection count: {intersection}')
-    # print(f'Union count: {union}')
-    # print(f'userSign IOU: {userSign.iou}%')
-    # print(f'TSP_list length: {len(userSign.TSP_list)}')
-    # print(f'NSP_list length: {len(userSign.NSP_list)}')
+    return 100 * (intersection / union)
 
 
 
+# Score a user sign based on it's TSP's and NSP's
 
-# Assign values to UserSign NSPs to score the UserSign based off its TSP and NSP values.
-
-def scoreUserSign(gtSign, userSign):
-    # Takes in the GTSign closest to the UserSign also passed
+def scoreUserSign(userSign):
     # userSign TSPs already have value set in setIOU.py
-        # Need to score NSPs of userSign
-
-    for nsp in userSign.NSP_list:
-        minDist = float("inf")
-            # minDist is minimum distance from a UserPoint NSP to a GTPoint
-            # initially set to infinity
-        for gtPoint in gtSign.point_list:
-            tempDist = (math.sqrt(((nsp.easting - gtPoint.easting)**2) + ((nsp.northing - gtPoint.northing)**2) + ((nsp.altitude - gtPoint.altitude)**2)))
-            if tempDist < minDist:
-                minDist = tempDist
-        nsp.distance_to_closest_tsp = minDist
-        nsp.value = nsp.distance_to_closest_tsp / 2
-        # print(nsp.value)
 
     # Score the userSign by summing TSPs and subtracting NSPs
     totalScore = 0
-    tspScore = 0
-    nspScore = 0
+ 
     for userPoint in userSign.point_list:
         if userPoint.type == "TSP":
             totalScore += userPoint.value
-            tspScore += userPoint.value
         if userPoint.type == "NSP":
             totalScore -= userPoint.value
-            nspScore -= userPoint.value
-
-    # userSign.score = totalScore
 
     return totalScore
 
-    #Testing purpose print statements for scoreUserSign:
-    # print(f'tspScore: {tspScore}')
-    # print(f'nspScore: {nspScore}')
-    # print(f'userSign Score: {userSign.score}')
-    # for point in userSign.TSP_list:
-    #     print(f'PointID {point.point_id}, Easting {point.easting}, type {point.type}, d to GTPoint {point.distance_to_closest_tsp} value {point.value}.')
-    # for point in userSign.NSP_list:
-    #     print(f'PointID {point.point_id}, Easting {point.easting}, type {point.type}, d to GTPoint {point.distance_to_closest_tsp} value {point.value}.')
