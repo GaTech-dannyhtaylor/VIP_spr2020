@@ -113,8 +113,8 @@ if __name__ == '__main__':
 			aggregate_score -= user_sign.score
 
 
-	# print('The confusion matrix for this route is the following:\n' + 'True Positives: ' + str(tp) + '\nTrue Negatives: ' + str(tn) + '\nFalse Positives: ' + str(fp) + '\nFalse Negatives: ' + str(fn))
-	# print('Aggregate score is: ' + str(aggregate_score))
+	print('The confusion matrix for this route is the following:\n' + 'True Positives: ' + str(tp) + '\nTrue Negatives: ' + str(tn) + '\nFalse Positives: ' + str(fp) + '\nFalse Negatives: ' + str(fn))
+	print('Aggregate score is: ' + str(aggregate_score))
 
 	# print('User Sign 0 Score (Wide Capture): ' + str(user_output_list[0].score))
 	# if user_output_list[0].matrix_classification == 'TP':
