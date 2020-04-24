@@ -12,7 +12,7 @@ import math
 
 # This method measures the distance between two signs
 def euclidean_distance(user_sign, gt_sign):
-	return math.sqrt(((user_sign.centroid_easting - gt_sign.centroid_easting)**2) + ((user_sign.centroid_northing - gt_sign.centroid_northing)**2) + ((user_sign.centroid_altitude - gt_sign.centroid_altitude)**2))
+    return math.sqrt(((user_sign.centroid_easting - gt_sign.centroid_easting)**2) + ((user_sign.centroid_northing - gt_sign.centroid_northing)**2) + ((user_sign.centroid_altitude - gt_sign.centroid_altitude)**2))
 
 
 # Assigns a weight to each GTPoint
@@ -78,9 +78,9 @@ def aggregateNSPs(userSignList, num_of_matched_gt_signs):
 # ====================================================================================================================================
     for userSign in userSignList:
         if userSign.matrix_classification == 'TP':
-        	for point in userSign.point_list:
-        		if point.type == 'NSP':
-        			point.aggregateValue = point.value / num_of_matched_gt_signs
+            for point in userSign.point_list:
+                if point.type == 'NSP':
+                    point.aggregateValue = point.value / num_of_matched_gt_signs
 # ====================================================================================================================================
 
 
@@ -125,17 +125,17 @@ def setIOU(gtSign, userSign):
 
             minDist = float("inf")
             for gtPoint in gt_points:
-            	tempDist = (math.sqrt(((userPoint.easting - gtPoint.easting)**2) + ((userPoint.northing - gtPoint.northing)**2) + ((userPoint.altitude - gtPoint.altitude)**2)))
-            	if tempDist < minDist:
-            		minDist = tempDist
-            	userPoint.distance_to_closest_tsp = minDist
-            	userPoint.value = userPoint.distance_to_closest_tsp / 2
+                tempDist = (math.sqrt(((userPoint.easting - gtPoint.easting)**2) + ((userPoint.northing - gtPoint.northing)**2) + ((userPoint.altitude - gtPoint.altitude)**2)))
+                if tempDist < minDist:
+                    minDist = tempDist
+                userPoint.distance_to_closest_tsp = minDist
+                userPoint.value = userPoint.distance_to_closest_tsp / 2
 
     union = len(user_points) + len(gtSign.point_list) - intersection
 
     # for user_point in user_points:
-    # 	print(user_point.type)
-    # 	print(str(user_point.value) + '\n')
+    #   print(user_point.type)
+    #   print(str(user_point.value) + '\n')
 
     return 100 * (intersection / union)
 

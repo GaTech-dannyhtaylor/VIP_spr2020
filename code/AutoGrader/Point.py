@@ -7,17 +7,17 @@ You can create this class with no attributes, or with some, or with all attribut
 
 """
 class Point:
-	
-	# Constructor for the Point class. Values do not have to be passed in to create a Point object, but they can be. 
-	# If not passed in on initialization, then they should be passed in afterwards
-	def __init__(self, point_id = None, easting = None, northing = None, altitude = None, retro = None, angle = None, distance = None, utc = None, longitude = None, latitude = None):
-		self.point_id = point_id
-		self.easting = easting
-		self.northing = northing
-		self.altitude = altitude
-		self.retro = retro
-		self.angle = angle
-		self.distance = distance
-		self.UTC = utc
-		self.longitude = longitude # make sure this is reflected in other codes
-		self.latitude = latitude # mke sure this is reflected in other codes
+    
+    # Constructor for the Point class. Values do not have to be passed in to create a Point object, but they can be. 
+    # If not passed in on initialization, then they should be passed in afterwards
+    def __init__(self, point_id = None, easting = None, northing = None, altitude = None, retro = None, angle = None, distance = None, utc = None, longitude = None, latitude = None):
+        self.point_id = point_id
+        self.easting = easting
+        self.northing = northing
+        self.altitude = altitude
+        self.retro = retro
+        self.angle = angle
+        self.distance = distance
+        self.UTC = utc
+        self.longitude = longitude # make sure this is reflected in other codes
+        self.latitude = latitude # mke sure this is reflected in other codes
