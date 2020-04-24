@@ -1,0 +1,5 @@
+Sign Number:1
+Type:R				
+Pic Frame Number:16906
+GPS Coordinate (LAT, LONG, ALT):
+UTM Coordinate (Easting, Northing):

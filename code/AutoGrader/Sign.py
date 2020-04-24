@@ -9,7 +9,7 @@ class Sign:
 	# Constructor creates a sign. You can instantiate a Sign object with no points or pass in a list of points (either a list of GTPoints or UserPoints). 
 	# Average values and centroids are calculated.
 	def __init__(self, plist = []):
-		self.point_list = []
+		self.point_list = plist
 		self.sign_id = None
 
 		self.centroid_easting = 0
@@ -20,9 +20,9 @@ class Sign:
 		self.centroid_latitude = 0
 		self.num_of_points = 0
 
-		# If a list of points was passed in, then add points in list to the sign's point list and calculate centroids and average values
+		# If a list of points was passed in, then calculate the centroids and average values for the sign
 		if len(plist) != 0:
-			self.add_points(plist)
+			self.calculate_centroids()
 
 
 	# This method will add either a list of points or a single point to the sign. Centroid and average values are then calculated
@@ -37,29 +37,34 @@ class Sign:
 		else:
 			self.point_list.append(points)
 
-		self.num_of_points = len(self.point_list)
+		# Calculate new centroids and such for the sign
+		self.calculate_centroids()
 
+
+
+	# This method will update the centroids and average values for the sign
+	def calculate_centroids(self):
+		self.num_of_points = len(self.point_list)
 		easting_total = 0
 		northing_total = 0
 		altitude_total = 0
 		retro_total = 0
-		longtiude_total = 0
+		longitude_total = 0
 		latitude_total = 0
 
 		for p in self.point_list:
-			centroid_easting += p.easting
+			easting_total += p.easting
 			northing_total += p.northing
 			altitude_total += p.altitude
 			retro_total += p.retro
-			longtiude_total += p.longitude
+			longitude_total += p.longitude
 			latitude_total += p.latitude
 
 		self.centroid_easting = easting_total / self.num_of_points
-		self.northing_total = northing_total / self.num_of_points
-		self.altitude_total = altitude_total / self.num_of_points
-		self.retro_total = retro_total / self.num_of_points
-		self.longtiude_total = longitude_total / self.num_of_points
-		self.latitude_total = latitude_total / self.num_of_points
-
+		self.centroid_northing = northing_total / self.num_of_points
+		self.centroid_altitude = altitude_total / self.num_of_points
+		self.avg_retro = retro_total / self.num_of_points
+		self.centroid_longitude = longitude_total / self.num_of_points
+		self.centroid_latitude = latitude_total / self.num_of_points
 
 

@@ -1,0 +1,5 @@
+Sign Number:4
+Type:W			
+Pic Frame Number:17014
+GPS Coordinate (LAT, LONG, ALT):
+UTM Coordinate (Easting, Northing):

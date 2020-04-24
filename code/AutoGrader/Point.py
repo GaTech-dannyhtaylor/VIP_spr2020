@@ -19,5 +19,5 @@ class Point:
 		self.angle = angle
 		self.distance = distance
 		self.UTC = utc
-		self.Long = longitude
-		self.Lat = latitude
+		self.longitude = longitude # make sure this is reflected in other codes
+		self.latitude = latitude # mke sure this is reflected in other codes

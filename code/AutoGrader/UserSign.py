@@ -20,7 +20,17 @@ class UserSign(Sign):
 	# You can instantiate a GTSign object with no points or pass in a list of points (either a list of GTPoints or UserPoints). 
 	# Average values and centroids are calculated.
 	def __init__(self, sign_id, plist = []):
-		super().__init__()
+		super().__init__(plist)
 		self.sign_id = sign_id
 		self.score = 0
 		self.iou = 0
+		self.matrix_classification = ""
+		self.matched = ["NO", -1] # Second element in list indicatest the sign_id of the user sign that it matched with.
+		self.matched_ratio = None # This will be a tuple of the format (# of TSPs captured, # of GTpoints in matched GTSign)
+
+		self.TSP_count = 0
+		self.NSP_count = 0
+
+		# Gabby added for iou calc
+		# self.TSP_list = []
+		# self.NSP_list = []
