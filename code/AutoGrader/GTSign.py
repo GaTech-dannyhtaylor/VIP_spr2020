@@ -9,13 +9,13 @@ pic_frame_num: This number indicates which picture file number shows this ground
 
 """
 class GTSign(Sign):
-	
-	# Constructor that takes the sign type and the pic_frame_number (these values should be found in the sign txt file).
-	# You can instantiate a GTSign object with no points or pass in a list of points (either a list of GTPoints or UserPoints). 
-	# Average values and centroids are calculated.
-	def __init__(self, sign_id, stype, pic_frame_number, plist = []):
-		super().__init__(plist)
-		self.sign_id = sign_id
-		self.sign_type = stype
-		self.pic_frame_num = pic_frame_number
-		self.matched = ["NO", -1] # Second element in list indicatest the sign_id of the user sign that it matched with.
+    # Constructor that takes the sign type and the pic_frame_number (these values should be found in the sign txt file).
+    # You can instantiate a GTSign object with no points or pass in a list of points (either a list of GTPoints or UserPoints). 
+    # Average values and centroids are calculated.
+    def __init__(self, sign_id, stype, pic_frame_number, plist = []):
+        super().__init__(plist)
+        self.sign_id = sign_id
+        self.sign_type = stype
+        self.pic_frame_num = pic_frame_number
+        self.matched = ["NO", -1] # Second element in list indicatest the sign_id of the user sign that it matched with.
+
