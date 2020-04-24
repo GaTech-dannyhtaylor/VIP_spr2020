@@ -112,29 +112,22 @@ if __name__ == '__main__':
         elif user_sign.matrix_classification == 'FP':
             aggregate_score -= user_sign.score
 
-
-    print('The confusion matrix for this route is the following:\n' + 'True Positives: ' + str(tp) + '\nTrue Negatives: ' + str(tn) + '\nFalse Positives: ' + str(fp) + '\nFalse Negatives: ' + str(fn))
-    print('Aggregate score is: ' + str(aggregate_score))
-
+    print_confusion_matrix(tp,tn,fp,fn)
+    print('Aggregate score: %.2f' % aggregate_score)
     print('\n')
 
-    print('User Sign 0 Score (Wide Capture): ' + str(user_output_list[0].score))
-    if user_output_list[0].matrix_classification == 'TP':
-        print('GT points captured ratio: ' + str(user_output_list[0].matched_ratio[0]) + '/' + str(user_output_list[0].matched_ratio[1]) )
-        print('NSP count: ' + str(user_output_list[0].NSP_count))
+    for user_sign in user_output_list:
+        if user_sign.matrix_classification == 'TP':
+            print("Sign " + str(user_sign.sign_id) + "'s score: %.2f " % user_sign.score)
+            print('GT points captured ratio: ' + str(user_sign.matched_ratio[0]) + '/' + str(user_sign.matched_ratio[1]))
+            print('IOU: %.2f' % user_sign.iou)
+            print('NSP count: ' + str(user_sign.NSP_count))
+            print('\n')
 
-    print('\n')
 
-    print('User Sign 1 Score (Narrow Capture): ' + str(user_output_list[1].score))
-    if user_output_list[1].matrix_classification == 'TP':
-        print('GT points captured ratio: ' + str(user_output_list[1].matched_ratio[0]) + '/' + str(user_output_list[0].matched_ratio[1]) )
-        print('NSP count: ' + str(user_output_list[1].NSP_count))
+    
 
-    # print('User Sign 2 Score (Wide Capture): ' + str(user_output_list[2].score))
 
-    # print('User Sign 3 Score (False Positive): ' + str(user_output_list[3].score))
-
-    # print('User Sign 4 Score (Ground Truth Capture): ' + str(user_output_list[4].score))
 
 
 
