@@ -157,7 +157,7 @@ def scoreUserSign(userSign):
 
     return totalScore
 
-
+# Prints confusion matrix in custom format to stdout
 def print_confusion_matrix(tp,tn,fp,fn):
     title_string = 'Pos'.center(11, " ") + 'Neg'.center(11, " ")
     print(title_string)
@@ -169,6 +169,6 @@ def print_confusion_matrix(tp,tn,fp,fn):
 
     string2 = 'F' + str(fp).center(10, " ") + '|' + str(fn).center(10, " ")
     print(string2)
-    
+
     print('\n')
 

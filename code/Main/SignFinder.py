@@ -70,7 +70,7 @@ if __name__ == '__main__':
     # cluster_list = []
 
     # Reading in data into a dataframe and formatting it.
-    df = pd.read_csv('E:/School/VIP/Data/LiDAR_Data/original/XYZ/V_20180816_I285_EB_run1(0)_2nd_leg.txt', sep = " ")
+    df = pd.read_csv('/Users/danny/Documents/Autograder_Big_test/Route2018_1/RoutePoints.txt', sep = " ")
     df = df.astype({'ID': int})
     # TODO: Figure out how to read in data with only a certain number of demicals. This takes a lot of time.
     df['Easting'] = df['Easting'].apply(round_half_up)
@@ -81,35 +81,43 @@ if __name__ == '__main__':
 # Command line and initialization ^^^
 
 # ========================================== Filtering ===============================================================
+    print('Start Filtering')
     # Filtering by Retro values
     df = df.loc[df['Retro'] > 0.7]
     df = df.reset_index(drop=True)
+    print('End Filtering')
 # ====================================================================================================================
 
 # ========================================= Clustering ===============================================================
+    print('Start Clustering')
     cluster_manager = ClusterManager()
     cluster_manager.cluster_list = cluster_manager.progressive_kdmean(df)
+    print('End Clustering')
 # ====================================================================================================================
 
 # ========================================== Classifying =============================================================
+    print('Start Classifying')
     sign_manager = SignManager()
     sign_manager.sign_list = sign_manager.num_points(cluster_manager.cluster_list)
+    print('End Classifying')
 # ====================================================================================================================
 
 # Book keeping vvvv
 # ========================================== Adding photos ===========================================================
     # Get the picture number that corresponds to each sign
-    camera = Camera('E:/School/VIP/Data/LiDAR_Data/coords/coords.csv')
-    for sign in sign_manager.sign_list:
-        pic_num = camera.get_closest_pic(sign.centroid_longitude, sign.centroid_latitude)
-        pic_num -= 2
-        sign.add_pic(pic_num)
+    # camera = Camera('/Volumes/T7 Touch/School/VIP/Data/2015/2015_coords.csv')
+    # for sign in sign_manager.sign_list:
+    #     pic_num = camera.get_closest_pic(sign.centroid_longitude, sign.centroid_latitude)
+    #     pic_num -= 2
+    #     sign.add_pic(pic_num)
 # ====================================================================================================================
 
 
 # ======================================== Book keeping and output files =============================================
+    print('Writing to files')
     sign_list_df = sign_manager.convert_signlist_to_dataframe(sign_manager.sign_list)
     sign_list_df.to_csv('sign_list_output.csv', index = False)
 
     points_of_signs = sign_manager.make_sign_point_dataframe(sign_manager.sign_list)
     points_of_signs.to_csv('points_of_signs.txt', sep = ' ', index = False)
+    print('Completed')

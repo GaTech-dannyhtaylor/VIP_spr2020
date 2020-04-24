@@ -30,19 +30,24 @@ class SignManager:
             temp_list.append(sign.centroid_longitude)  # centroid_long
             temp_list.append(sign.centroid_latitude)  # centroid_lat
             temp_list.append(sign.num_of_points)  # num_of_points
-            temp_list.append(sign.picture)  # pic_num
+            # temp_list.append(sign.picture)  # pic_num
 
             data.append(temp_list)
 
-        df = pd.DataFrame(data, columns=['Sign_Id', 'Easting', 'Northing', 'Altitude', 'Retro', 'Long', 'Lat', 'Num_of_Points', 'Pic_Num'])
+        # df = pd.DataFrame(data, columns=['Sign_Id', 'Easting', 'Northing', 'Altitude', 'Retro', 'Long', 'Lat', 'Num_of_Points', 'Pic_Num'])
+        df = pd.DataFrame(data, columns=['Sign_Id', 'Easting', 'Northing', 'Altitude', 'Retro', 'Long', 'Lat', 'Num_of_Points'])
 
         return df
 
     def make_sign_point_dataframe(self, sign_list):
-        df = pd.DataFrame(columns = sign_list[0].dataframe.columns)
-        for sign in sign_list:
+        df = pd.DataFrame()
+        for i,sign in enumerate(sign_list):
+            temp_df = sign.dataframe.insert(0,'Sign_ID', str(i))
+            # print(sign.dataframe)
+            # print('\n')
             df = df.append(sign.dataframe)
         df.sort_values(by=['ID'])
+        print(df)
 
         return df
 

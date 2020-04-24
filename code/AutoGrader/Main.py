@@ -61,7 +61,7 @@ if __name__ == '__main__':
         iou = setIOU(gt_route.sign_list[min_gtsign_index], user_sign)
 
         # print(iou)
-        if iou > 5:
+        if iou > 5 and gt_route.sign_list[min_gtsign_index].matched[0] == 'NO':
             tp += 1
 
             gt_route.num_of_matched_gt_signs += 1
