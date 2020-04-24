@@ -17,6 +17,74 @@ def euclidean_distance(user_sign, gt_sign):
 
 
 
+# Assigns a weight to each GTPoint
+def groundTruthWeight(gtSign):
+    # Given a GTSign object, run through its point list and assign ground truth value/weight to each GTPoint
+    # Weighting is inverse distance to GTSign centroid, meaning weights will decrease relative to distance from centroid
+    gt_sign = gtSign
+
+    inverseSum = 0
+
+    for p in gt_sign.point_list:
+        #Set point value intially to inverse of its distance to the centroid
+        p.value = 1 / (math.sqrt(((p.easting - gtSign.centroid_easting)**2) + ((p.northing - gtSign.centroid_northing)**2) + ((p.altitude - gtSign.centroid_altitude)**2)))
+        inverseSum += p.value
+
+    for p in gt_sign.point_list:
+        #Divide intial set point value by total of all point inverse centroid distance for normalization to 1
+        p.value /= inverseSum
+        p.value *= 100
+
+    return gt_sign
+
+
+# Assigns aggregate normalized value to points in entire ground truth sign list
+    #Sum each GTPoint's value, and divide each GTPoint's value by this sum
+    #Afterwhich times by 100 to make total score possible for all GTPoints together to be 100
+# NOTE: this method must be called after groundTruthWeight() is called which locally scores GTPoints
+    #and before calling setIOU() as that is when TSP attributes are set.
+def aggregateNormGT(groundTruthSignList):
+    # Takes in entire ground truth sign list
+
+    aggregateValueSum = 0
+
+    for gtSign in groundTruthSignList:
+        for gtPoint in gtSign.point_list:
+            aggregateValueSum += gtPoint.value
+
+    for gtSign in groundTruthSignList:
+        for gtPoint in gtSign.point_list:
+            gtPoint.aggregateValue = (gtPoint.value / aggregateValueSum) * 100
+
+    #Testing purpose print statements:
+
+
+
+    # Testing purpose print statements for GTSign values:
+    # totalValue = 0
+    # for point in gtSign.point_list:
+    #     print(f'Point ID {point.point_id} of easting {point.easting} of value {point.value}.')
+    #     totalValue += point.value
+    # print(totalValue)     # check total of normalized point values is 100
+
+
+
+# Assigns aggregate normalized value to points in entire user sign list
+    #Sum each user NSP's value, and divide each user NSP's value by this sum
+    #Afterwhich times by 100 to make total score possible for all user NSPs together to be 100 (to DEDUCT)
+# NOTE: this method must be called after scoreUserSign() is called which locally scores user NSPs
+def aggregateNSPs(userSignList, num_of_matched_gt_signs):
+    # Takes in list of all user signs
+
+    for userSign in userSignList:
+        if userSign.matrix_classification == 'TP':
+        	for point in userSign.point_list:
+        		if point.type == 'NSP':
+        			point.aggregateValue = point.aggregateValue / num_of_matched_gt_signs
+
+
+
+
 # Sets a userSign.iou
     # IOU = intersection / union
 
@@ -42,6 +110,7 @@ def setIOU(gtSign, userSign):
                 # Match between UserPoint and GTPoint, assign TSP and GTPoint value to UserPoint. Add to TSP_list
                 userPoint.type = "TSP"
                 userPoint.value = gt_points[gtIndex].value
+                userPoint.aggregateValue = gt_points[gtIndex].aggregateValue
                 userPoint.distance_to_closest_tsp = 0
                 TSP_list.append(userPoint)
 
@@ -75,6 +144,8 @@ def setIOU(gtSign, userSign):
     # print(f'NSP_list length: {len(userSign.NSP_list)}')
 
 
+
+
 # Assign values to UserSign NSPs to score the UserSign based off its TSP and NSP values.
 
 def scoreUserSign(gtSign, userSign):
@@ -92,6 +163,7 @@ def scoreUserSign(gtSign, userSign):
                 minDist = tempDist
         nsp.distance_to_closest_tsp = minDist
         nsp.value = nsp.distance_to_closest_tsp / 2
+        # print(nsp.value)
 
     # Score the userSign by summing TSPs and subtracting NSPs
     totalScore = 0

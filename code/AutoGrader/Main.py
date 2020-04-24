@@ -34,6 +34,7 @@ if __name__ == '__main__':
 	# Read in gt and user output data
 	reader = Reader()
 	gt_route = reader.createRoute(gt_path)
+	
 	user_output_list = reader.collectUserSigns(user_output)
 
 	# Set confusion matrix global variables
@@ -41,6 +42,7 @@ if __name__ == '__main__':
 	tn = 0
 	fp = 0
 	fn = 0
+	aggregate_score = 0
 
 	# Start main loop. Find the closest GT sign and calculate IOU
 	# If greater than 5, then mark UserSign as TP and GTsign.captured = yes
@@ -59,16 +61,29 @@ if __name__ == '__main__':
 		iou = setIOU(gt_route.sign_list[min_gtsign_index], user_sign)
 		# print(iou)
 		if iou > 5:
+			tp += 1
+
+			gt_route.num_of_matched_gt_signs += 1
+
 			user_sign.iou = iou
 			user_sign.matrix_calssification = "TP"
-			tp += 1
-			gt_route.sign_list[min_gtsign_index].captured = "YES"
+			user_sign.matched[0] = "YES"
+			user_sign.matched[1] = gt_route.sign_list[min_gtsign_index].sign_id # This is the Sign_ID of the GT sign
+			user_sign.matched_ratio = tuple((len(user_sign.TSP_list), len(gt_route.sign_list[user_sign.matched[1]].point_list))) # This is a ratio of gt points the user captuerd to the number of total GTPoints for a sign
+			user_sign.NSP_count = len(user_sign.NSP_list) # This can be automatically done with a class method
+
+			
+			gt_route.sign_list[min_gtsign_index].matched[0] = "YES"
+			gt_route.sign_list[min_gtsign_index].matched[1] = user_sign.sign_id
+
 			user_sign.score = scoreUserSign(gt_route.sign_list[min_gtsign_index], user_sign)
 		else:
 			user_sign.matrix_calssification = "FP"
+			user_sign.NSP_count = len(user_sign.NSP_list) # This can be automatically done with a class method
 			fp += 1
 			# How do we score False Positives again????
-			user_sign.score = 0
+			# The temporary grading is to deduct a standard amount. 10 (or -10) was the decided value
+			user_sign.score = 10
 
 	# Pump out confusion matrix. 
 	# TP count comes from global variable (or the number of GTSigns that were captured or, alternatively the number of User signs that are TP)
@@ -76,11 +91,51 @@ if __name__ == '__main__':
 	# TN is always 0 right now. Perhaps this can be built out more in the future
 	# FN is the number of GTsigns that were not captured
 	for gt_sign in gt_route.sign_list:
-		if gt_sign.captured == "NO":
+		if gt_sign.matched[0] == "NO":
 			fn += 1
 
-	print('The confusion matrix for this route is the following:\n' + 'True Positives: ' + str(tp) + '\nTrue Negatives: ' + str(tn) + '\nFalse Positives: ' + str(fp) + '\nFalse Negatives: ' + str(fn))
 
+	# Figuring out aggregate score
+	aggregateNormGT(gt_route.sign_list)
+	aggregateNSPs(user_output_list, gt_route.num_of_matched_gt_signs)
+
+	# This will add all of the gt points collected to the aggregate score and subtract all of the nsp's collected from the aggregate score
+	# It will also subtract the standard deduction of false positives from the aggregate score
+	for user_sign in user_output_list:
+		if user_sign.matrix_calssification == 'TP':
+
+			gt_point_sum = 0
+			for tsp in user_sign.TSP_list:
+				print(tsp.aggregateValue)
+				gt_point_sum += tsp.aggregateValue
+			aggregate_score += gt_point_sum
+
+			nsp_point_sum = 0
+			for nsp in user_sign.NSP_list:
+				nsp_point_sum += nsp.aggregateValue
+				aggregate_score -= gt_point_sum
+
+		elif user_sign.matrix_calssification == 'FP':
+			aggregate_score -= user_sign.score
+
+
+	# print('The confusion matrix for this route is the following:\n' + 'True Positives: ' + str(tp) + '\nTrue Negatives: ' + str(tn) + '\nFalse Positives: ' + str(fp) + '\nFalse Negatives: ' + str(fn))
+
+	# print('User Sign 0 Score (Wide Capture): ' + str(user_output_list[0].score))
+	# if user_output_list[0].matrix_calssification == 'TP':
+	# 	print('GT points captured ratio: ' + str(user_output_list[0].matched_ratio[0]) + '/' + str(user_output_list[0].matched_ratio[1]) )
+	# 	print('NSP count: ' + str(user_output_list[0].NSP_count))
+
+	# print('User Sign 1 Score (Narrow Capture): ' + str(user_output_list[1].score))
+	# if user_output_list[1].matrix_calssification == 'TP':
+	# 	print('GT points captured ratio: ' + str(user_output_list[1].matched_ratio[0]) + '/' + str(user_output_list[0].matched_ratio[1]) )
+	# 	print('NSP count: ' + str(user_output_list[1].NSP_count))
+
+	# print('User Sign 2 Score (Wide Capture): ' + str(user_output_list[2].score))
+
+	# print('User Sign 3 Score (False Positive): ' + str(user_output_list[3].score))
+
+	# print('User Sign 4 Score (Ground Truth Capture): ' + str(user_output_list[4].score))
 
 
 

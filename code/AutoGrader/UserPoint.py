@@ -19,3 +19,4 @@ class UserPoint(Point):
 		self.type = None
 		self.distance_to_closest_tsp = None
 		self.value = None
+		self.aggregateValue = None

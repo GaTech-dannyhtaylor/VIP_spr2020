@@ -7,7 +7,7 @@ from GTSign import *
 from Route import *
 from UserPoint import *
 from UserSign import *
-from groundTruthWeight import *
+from Utilities import *
 
 class Reader:
 
@@ -60,7 +60,7 @@ class Reader:
 	    # print(signPropertiesList)
 
 	    # Get Sign Properties
-	    signID = signPropertiesList[0].split(":", 1)[1]
+	    signID = int(signPropertiesList[0].split(":", 1)[1])
 	    signType = signPropertiesList[1].split(":", 1)[1]
 	    signPic = signPropertiesList[2].split(":", 1)[1]
 

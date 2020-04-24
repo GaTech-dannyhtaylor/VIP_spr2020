@@ -25,3 +25,7 @@ class Route:
 		self.num_guide = num_guide
 		self.num_c = num_c
 		self.num_other = num_other
+		
+		self.num_of_matched_gt_signs = 0
+
+
