@@ -8,13 +8,13 @@ from Route import *
 from Reader import *
 from Utilities import *
 import math
-
 import argparse
-
+import dataclass
 """
 This is a duplicate of Main.py. It's in function format.
 """
-def main_autograder(path_to_user_output, path_to_gt):
+displayAggregateScore = 0
+def run(path_to_user_output, path_to_gt):
 
     # Read in gt and user output data
     reader = Reader()
@@ -97,30 +97,35 @@ def main_autograder(path_to_user_output, path_to_gt):
         elif user_sign.matrix_classification == 'FP':
             aggregate_score -= user_sign.score
 
-    # print_confusion_matrix(tp,tn,fp,fn)
-    # print('Aggregate score: %.2f' % aggregate_score)
-    # print('\n')
-
-    # for user_sign in user_output_list:
-    #     if user_sign.matrix_classification == 'TP':
-    #         print("Sign " + str(user_sign.sign_id) + "'s score: %.2f " % user_sign.score)
-    #         print('GT points captured ratio: ' + str(user_sign.matched_ratio[0]) + '/' + str(user_sign.matched_ratio[1]))
-    #         print('IOU: %.2f' % user_sign.iou)
-    #         print('NSP count: ' + str(user_sign.NSP_count))
-    #         print('\n')
+    confusionMatrix = print_confusion_matrix(tp,tn,fp,fn)
 
 
-    
+    #print('Aggregate score: %.2f' % aggregate_score)
 
+    print('\n')
+    truePositive = []
+    for user_sign in user_output_list:
+        if user_sign.matrix_classification == 'TP':
+            # print("Sign " + str(user_sign.sign_id) + "'s score: %.2f " % user_sign.score)
+            truePositive = dataclass.truePositive
+            truePositive.append(user_sign.sign_id)
+            truePositive.append(user_sign.score)
+            truePositive.append(str(user_sign.matched_ratio[0]) + '/' + str(user_sign.matched_ratio[1]))
+            truePositive.append(user_sign.iou)
+            truePositive.append(str(user_sign.NSP_count))
+            # print('GT points captured ratio: ' + str(user_sign.matched_ratio[0]) + '/' + str(user_sign.matched_ratio[1]))
+            # print('IOU: %.2f' % user_sign.iou)
+            # print('NSP count: ' + str(user_sign.NSP_count))
+            # print('\n')
+    result = []
+    result.append(aggregate_score)
+    result.append(confusionMatrix[0])
+    result.append(confusionMatrix[1])
+    result.append(confusionMatrix[2])
+    result.append(confusionMatrix[3])
+    result.append(truePositive)
 
-
-
-
-
-
-
-
-
+    return result
 
 
     

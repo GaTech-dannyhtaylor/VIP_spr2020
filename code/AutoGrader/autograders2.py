@@ -13,10 +13,8 @@ from falsepositive import Ui_FalsePositiveWindow
 from truepositive import Ui_TruePositiveWindow
 from truenegative import Ui_TrueNegativeWindow
 
-
-
-
 class Ui_AutograderS2(object):
+
     def setupUi(self, AutograderS2):
         AutograderS2.setObjectName("AutograderS2")
         AutograderS2.resize(800, 600)
@@ -56,6 +54,7 @@ class Ui_AutograderS2(object):
         self.score.setFont(font)
         self.score.setFrameShape(QtWidgets.QFrame.Box)
         self.score.setObjectName("score")
+
         self.confusionMatrixLabel = QtWidgets.QLabel(self.centralwidget)
         self.confusionMatrixLabel.setGeometry(QtCore.QRect(300, 150, 201, 51))
         font = QtGui.QFont()
@@ -218,8 +217,10 @@ class Ui_AutograderS2(object):
         self.truePositive = QtWidgets.QHBoxLayout()
         self.truePositive.setObjectName("truePositive")
         self.truePositiveButton = QtWidgets.QPushButton(self.verticalLayoutWidget_6)
+        self.truePositiveButton.setStyleSheet("background-color: purple")
         font = QtGui.QFont()
         font.setFamily("Century Gothic")
+        font.setPointSize(14)
         self.truePositiveButton.setFont(font)
         self.truePositiveButton.setObjectName("truePositiveButton")
         self.truePositive.addWidget(self.truePositiveButton)
@@ -229,9 +230,11 @@ class Ui_AutograderS2(object):
         self.falsePositiveButton = QtWidgets.QPushButton(self.verticalLayoutWidget_6)
         font = QtGui.QFont()
         font.setFamily("Century Gothic")
+        font.setPointSize(14)
         self.falsePositiveButton.setFont(font)
         self.falsePositiveButton.setObjectName("falsePositiveButton")
         self.falsePositive.addWidget(self.falsePositiveButton)
+        self.falsePositiveButton.setStyleSheet("background-color: red")
         self.positiveContainer.addLayout(self.falsePositive)
         self.positiveVBOX.addLayout(self.positiveContainer)
         self.confusionContainer.addLayout(self.positiveVBOX)
@@ -242,8 +245,10 @@ class Ui_AutograderS2(object):
         self.falseNegative = QtWidgets.QHBoxLayout()
         self.falseNegative.setObjectName("falseNegative")
         self.falseNegativeButton = QtWidgets.QPushButton(self.verticalLayoutWidget_6)
+        self.falseNegativeButton.setStyleSheet("background-color: yellow")
         font = QtGui.QFont()
         font.setFamily("Century Gothic")
+        font.setPointSize(14)
         self.falseNegativeButton.setFont(font)
         self.falseNegativeButton.setObjectName("falseNegativeButton")
         self.falseNegative.addWidget(self.falseNegativeButton)
@@ -251,8 +256,10 @@ class Ui_AutograderS2(object):
         self.trueNegative = QtWidgets.QHBoxLayout()
         self.trueNegative.setObjectName("trueNegative")
         self.trueNegativeButton = QtWidgets.QPushButton(self.verticalLayoutWidget_6)
+        self.trueNegativeButton.setStyleSheet("background-color: green")
         font = QtGui.QFont()
         font.setFamily("Century Gothic")
+        font.setPointSize(14)
         self.trueNegativeButton.setFont(font)
         self.trueNegativeButton.setObjectName("trueNegativeButton")
         self.trueNegative.addWidget(self.trueNegativeButton)
@@ -272,7 +279,6 @@ class Ui_AutograderS2(object):
         self.falsePositiveButton.clicked.connect(self.openFP)
         self.trueNegativeButton.clicked.connect(self.openTN)
         self.truePositiveButton.clicked.connect(self.openTP)
-
         self.retranslateUi(AutograderS2)
         QtCore.QMetaObject.connectSlotsByName(AutograderS2)
 
@@ -282,7 +288,6 @@ class Ui_AutograderS2(object):
         self.exportButton.setText(_translate("AutograderS2", "Export"))
         self.titleLabel.setText(_translate("AutograderS2", "3D Point Cloud Autograder"))
         self.scoreLabel.setText(_translate("AutograderS2", "Score:"))
-        self.score.setText(_translate("AutograderS2", "100%"))
         self.confusionMatrixLabel.setText(_translate("AutograderS2", "Confusion Matrix:"))
         self.signCategoriesLabel.setText(_translate("AutograderS2", "Sign Categories:"))
         self.regulatoryLabel.setText(_translate("AutograderS2", "Regulatory:"))
@@ -314,13 +319,13 @@ class Ui_AutograderS2(object):
         self.ui = Ui_FalseNegativeWindow()
         self.ui.setupUi(self.window)
         self.window.show()
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    AutograderS2 = QtWidgets.QMainWindow()
-    ui = Ui_AutograderS2()
-    ui.setupUi(AutograderS2)
-    AutograderS2.show()
-    sys.exit(app.exec_())
+    def changeScore(self, score):
+        self.score.setText(score)
+    def changeFP(self, fp):
+        self.falsePositiveButton.setText("False Positive \n" + str(fp))
+    def changeFN(self, fn):
+        self.falseNegativeButton.setText("False Negative \n" + str(fn))
+    def changeTP(self, tp):
+        self.truePositiveButton.setText("True Positive \n" + str(tp))
+    def changeTN(self, tn):
+        self.trueNegativeButton.setText("True Negative \n" + str(tn))
