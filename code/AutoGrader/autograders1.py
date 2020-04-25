@@ -19,7 +19,7 @@ import dataclass
 
 class Ui_AutograderS1(object):
     def openWindow(self):
-        if (self.label.text() == ""):
+        if (self.label.text() == "" or self.groundlabel.text() == ""):
             return
         self.download()
         self.window = QtWidgets.QMainWindow()
@@ -28,7 +28,7 @@ class Ui_AutograderS1(object):
 
         self.ui.setupUi(self.window)
         self.window.show()
-        algoOutput = runautograder.run(self.label.text(), "GT")
+        algoOutput = runautograder.run(self.label.text(), self.groundlabel.text())
         self.ui.changeScore(str(round(algoOutput[0], 2)))
         self.ui.changeTP(str(algoOutput[1]))
         self.ui.changeTN(str(algoOutput[2]))
@@ -41,13 +41,17 @@ class Ui_AutograderS1(object):
         while self.completed < 100:
             self.completed += 1
             self.progressBar.setValue(self.completed)
-    def browse(self):
-        self.openFile()
+
     def openFile(self):
         fileName = QFileDialog.getOpenFileName()
         path = fileName[0]
         self.label.setText(path)
-        
+
+    def openFolder(self):
+        fileName = QFileDialog.getExistingDirectory()
+        self.groundlabel.setText(fileName)
+
+
     def setupUi(self, AutograderS1):
         AutograderS1.setObjectName("AutograderS1")
         AutograderS1.resize(800, 600)
@@ -99,11 +103,10 @@ class Ui_AutograderS1(object):
         self.resetButton.setFont(font)
         self.resetButton.setStyleSheet("background-color: rgb(170, 255, 255)")
         self.resetButton.setObjectName("resetButton")
-        self.groundTruths = QtWidgets.QComboBox(self.centralwidget)
+        self.groundTruths = QtWidgets.QLabel(self.centralwidget)
         self.groundTruths.setGeometry(QtCore.QRect(170, 181, 261, 31))
-        self.groundTruths.setObjectName("groundTruths")
-        self.groundTruths.addItem("")
-        self.groundTruths.addItem("Groundtruths")
+        self.groundTruthBrowseButton = QtWidgets.QPushButton(self.centralwidget)
+        self.groundTruthBrowseButton.setGeometry(QtCore.QRect(450, 180, 91, 41))
         self.browseButton = QtWidgets.QPushButton(self.centralwidget)
         self.browseButton.setGeometry(QtCore.QRect(450, 230, 91, 41))
         font = QtGui.QFont()
@@ -112,15 +115,25 @@ class Ui_AutograderS1(object):
         self.browseButton.setFont(font)
         self.browseButton.setStyleSheet("background-color:rgb(170, 255, 255)")
         self.browseButton.setObjectName("browseButton")
-        self.browseButton.clicked.connect(self.browse)
+        self.browseButton.clicked.connect(self.openFile)
+        self.groundTruthBrowseButton.setFont(font)
+        self.browseButton.setFont(font)
+        self.groundTruthBrowseButton.setStyleSheet("background-color:rgb(170, 255, 255)")
+        self.groundTruthBrowseButton.setObjectName("groundBrowseButton")
+        self.groundTruthBrowseButton.clicked.connect(self.openFolder)
+
         
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setGeometry(QtCore.QRect(170, 240, 261, 31))
+        self.groundlabel = QtWidgets.QLabel(self.centralwidget)
+        self.groundlabel.setGeometry(QtCore.QRect(170, 180, 261, 31))
         font = QtGui.QFont()
         font.setFamily("Century Gothic")
         font.setPointSize(10)
         self.label.setFont(font)
         self.label.setObjectName("label")
+        self.groundlabel.setFont(font)
+        self.groundlabel.setObjectName("groundlabel")
         AutograderS1.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(AutograderS1)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 21))
@@ -140,12 +153,14 @@ class Ui_AutograderS1(object):
         _translate = QtCore.QCoreApplication.translate
         AutograderS1.setWindowTitle(_translate("AutograderS1", "AutograderS1"))
         self.titleLabel.setText(_translate("AutograderS1", "3D Point Cloud Autograder"))
-        self.groundTruthLabel.setText(_translate("AutograderS1", "Ground Truths"))
+        self.groundTruthLabel.setText(_translate("AutograderS1", "Ground Truth"))
         self.algorithmLabel.setText(_translate("AutograderS1", "Algorithm Input"))
         self.runButton.setText(_translate("AutograderS1", "Run"))
         self.resetButton.setText(_translate("AutograderS1", "Reset"))
         self.browseButton.setText(_translate("AutograderS1", "Browse"))
+        self.groundTruthBrowseButton.setText(_translate("AutograderS1", "Browse"))
         self.label.setText(_translate("AutograderS1", ""))
+        self.groundlabel.setText(_translate("AutograderS1", ""))
         self.menuHome.setTitle(_translate("AutograderS1", "Home"))
         self.actionHelp.setText(_translate("AutograderS1", "Help"))
 

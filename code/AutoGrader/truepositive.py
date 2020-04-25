@@ -88,7 +88,7 @@ class Ui_TruePositiveWindow(object):
         item = self.truePositiveTable.item(0, 0)
         item.setText(_translate("TruePositiveWindow", "User Sign"))
         item = self.truePositiveTable.item(0, 1)
-        item.setText(_translate("TruePositiveWindow", "TSP/NSP"))
+        item.setText(_translate("TruePositiveWindow", "TSP/GT"))
         item = self.truePositiveTable.item(0, 2)
         item.setText(_translate("TruePositiveWindow", "IOU"))
         item = self.truePositiveTable.item(0, 3)
